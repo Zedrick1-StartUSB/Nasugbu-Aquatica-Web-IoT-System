@@ -4,6 +4,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    background-image: url("https://images.wallpapersden.com/image/download/forest-mountains-landscape_bG1qameUmZqaraWkpJRnZWltrWZnZWc.jpg");
 }
 #ui-holder{
     border: 2px solid black;
