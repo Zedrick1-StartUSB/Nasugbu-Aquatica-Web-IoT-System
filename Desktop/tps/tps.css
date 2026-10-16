@@ -6,10 +6,32 @@ body{
 
 #Left-Navigation{
     border: 2px solid white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
 }
 #Nasugbu-aquatic{
+    margin-bottom: 20mm;
     text-align: center;
     color: white;
     font-family: Segoe UI;
+    font-size: clamp(1mm, 5vw, 15mm);
+}
+#nav-btn{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    height: auto;
+}
+.btn-style{
+    height: 20mm;
+}
+
+#feature-screen{
+    border: 2px solid white;
+}
+#loading-screen{
+    border: 2px solid white;
+    background: white;
 }
