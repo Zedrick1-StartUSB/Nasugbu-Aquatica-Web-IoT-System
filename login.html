@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Aquatica</title>
+    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="bootstrap_template/css/bootstrap.min.css">
+</head>
+<body>
+    <main class="login-page">
+        <section class="login-card" aria-labelledby="login-title">
+            <div class="login-visual">
+                <a class="brand" href="#" aria-label="Aquatica home">
+                    <span class="brand-icon"><i class="bi bi-water" aria-hidden="true"></i></span>
+                    <span>AQUATICA</span>
+                </a>
+                <div class="visual-copy">
+                    <span class="eyebrow">NASUGBU AQUATICA</span>
+                    <h1>Make a splash.</h1>
+                    <p>Your aquatic world is just a sign in away.</p>
+                </div>
+                <div class="visual-decoration" aria-hidden="true">
+                    <i class="bi bi-water"></i>
+                </div>
+                <p class="visual-caption">A better way to manage your aquatic experience.</p>
+            </div>
+
+            <div class="login-content">
+                <div class="mobile-brand">
+                    <span class="brand-icon"><i class="bi bi-water" aria-hidden="true"></i></span>
+                    <span>AQUATICA</span>
+                </div>
+                <div class="form-heading">
+                    <span class="welcome-label">WELCOME BACK</span>
+                    <h2 id="login-title">Sign in to your account</h2>
+                    <p>Enter your details to continue.</p>
+                </div>
+
+                <form action="#" method="post">
+                    <div class="mb-3">
+                        <label class="form-label" for="email">Email address</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-envelope" aria-hidden="true"></i></span>
+                            <input class="form-control" id="email" name="email" type="email"
+                                placeholder="you@example.com" autocomplete="email" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="password-label">
+                            <label class="form-label" for="password">Password</label>
+                            <a href="#">Forgot password?</a>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-lock" aria-hidden="true"></i></span>
+                            <input class="form-control" id="password" name="password" type="password"
+                                placeholder="Enter your password" autocomplete="current-password" required>
+                            <span class="input-group-text password-end-icon" aria-hidden="true">
+                                <i class="bi bi-eye"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary sign-in-button" type="submit">
+                        Sign in <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                    </button>
+                </form>
+
+                <h4 class="signup-prompt">New to Aquatica? <a href="#">Create an account</a></h4>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
