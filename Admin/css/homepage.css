@@ -63,6 +63,88 @@ body {
     color: #168d91;
 }
 
+.sidebar .create-account-nav-link {
+    color: #168d91;
+    font-weight: 600;
+}
+
+.sidebar .create-account-nav-link:hover,
+.sidebar .create-account-nav-link:focus {
+    background: #e8f7f8;
+    color: #11777b;
+}
+
+.sidebar .nav-icon {
+    width: 22px;
+    display: inline-flex;
+    justify-content: center;
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+.sidebar-workspace {
+    position: absolute;
+    right: 18px;
+    bottom: 22px;
+    left: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 12px;
+    border: 1px solid #e4eeee;
+    border-radius: 10px;
+    background: #fbfdfd;
+}
+
+.sidebar-status-dot {
+    width: 8px;
+    height: 8px;
+    flex: 0 0 8px;
+    border-radius: 50%;
+    background: #28a879;
+}
+
+.sidebar-workspace strong,
+.sidebar-workspace small {
+    display: block;
+}
+
+.sidebar-workspace strong {
+    color: #23434a;
+    font-size: 11px;
+}
+
+.sidebar-workspace small {
+    margin-top: 3px;
+    color: #91a7aa;
+    font-size: 10px;
+}
+
+.sidebar-logout {
+    position: absolute;
+    right: 18px;
+    bottom: 94px;
+    left: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 12px;
+    border: 1px solid #efdada;
+    border-radius: 8px;
+    background: #fff;
+    color: #b45a5a;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.sidebar-logout:hover,
+.sidebar-logout:focus {
+    border-color: #e7c4c4;
+    background: #fff7f7;
+    color: #9e4545;
+}
+
 .sidebar-note {
     position: absolute;
     right: 18px;
@@ -426,8 +508,14 @@ body {
     }
 
     .menu-title,
-    .sidebar-note {
+    .sidebar-note,
+    .sidebar-workspace {
         display: none;
+    }
+
+    .sidebar-logout {
+        position: static;
+        margin-top: 8px;
     }
 
     .sidebar .nav {
