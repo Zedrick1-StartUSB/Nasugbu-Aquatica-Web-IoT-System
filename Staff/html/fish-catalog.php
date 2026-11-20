@@ -25,7 +25,7 @@ require 'staff_backend.php';
                 <a class="nav-link" href="inventory-management.php">Inventory</a>
                 <a class="nav-link" href="transaction.php">Billing</a>
             </nav>
-            <a class="sidebar-logout" href="../../login_page/html/login.php">Logout</a>
+            <a class="sidebar-logout" href="../../login_page/logout.php">Logout</a>
             <div class="sidebar-workspace"><span class="sidebar-status-dot" aria-hidden="true"></span><span><strong>Nasugbu
                         Aquatica</strong><small>Staff workspace</small></span></div>
         </aside>

@@ -1,3 +1,11 @@
+<?php
+require_once '../../global/auth.php';
+if (empty($_SESSION['username']) || strtolower((string) ($_SESSION['role'] ?? '')) !== 'admin') {
+    http_response_code(empty($_SESSION['username']) ? 401 : 403);
+    header('Location: ../../login_page/html/login.php');
+    exit('You do not have permission to access this page.');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,9 +30,10 @@
                 <a class="nav-link" href="homepage.php">Dashboard</a>
                 <a class="nav-link" href="inventory.php">Inventory</a>
                 <a class="nav-link active" href="device.php" aria-current="page">Device Monitoring</a>
+                <a class="nav-link" href="#accountsModal" data-bs-toggle="modal" data-bs-target="#accountsModal">Manage accounts</a>
                 <a class="nav-link create-account-nav-link" href="../../login_page/html/signup.php">Create account</a>
             </nav>
-            <a class="sidebar-logout" href="../../login_page/html/login.php">Logout</a>
+            <a class="sidebar-logout" href="../../login_page/logout.php">Logout</a>
             <div class="sidebar-workspace">
                 <span class="sidebar-status-dot" aria-hidden="true"></span>
                 <span><strong>Nasugbu Aquatica</strong><small>Admin workspace</small></span>
@@ -97,5 +106,6 @@
             </section>
         </main>
     </div>
+<?php require 'manage-accounts.php'; ?>
 </body>
 </html>

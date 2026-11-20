@@ -3,6 +3,13 @@
  * Staff page controller. UI files set $staffBackendAction before requiring
  * this file; database access and request handling stay centralized here.
  */
+require_once '../../global/auth.php';
+$requiredRole = $requiredRole ?? 'staff';
+if (empty($_SESSION['username']) || strtolower((string) ($_SESSION['role'] ?? '')) !== strtolower($requiredRole)) {
+    http_response_code(empty($_SESSION['username']) ? 401 : 403);
+    header('Location: ../../login_page/html/login.php');
+    exit('You do not have permission to access this page.');
+}
 require '../../database_conn.php';
 
 $staffBackendAction = $staffBackendAction ?? '';
@@ -173,7 +180,7 @@ if ($staffBackendAction === 'catalog') {
 
 if ($staffBackendAction === 'dashboard') {
     $recentTransactionsQuery = 'SELECT customer, product_bought, total_quantity, total_paid, transaction_number '
-        . 'FROM `transaction` ORDER BY transaction_id DESC LIMIT 4';
+        . 'FROM `transaction` ORDER BY transaction_id DESC LIMIT 5';
     $recentTransactionsResult = $conn->query($recentTransactionsQuery);
 }
 

@@ -1,3 +1,11 @@
+<?php
+require_once '../../global/auth.php';
+if (empty($_SESSION['username']) || strtolower((string) ($_SESSION['role'] ?? '')) !== 'admin') {
+    http_response_code(empty($_SESSION['username']) ? 401 : 403);
+    header('Location: login.php');
+    exit('Only an administrator can create accounts.');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,14 +41,18 @@
                     <?php endif; ?>
 
                     <form action="../auth.php" method="POST" id="signupForm">
+                        <input type="hidden" name="signup" value="1">
                         <div class="mb-3">
                             <label for="username" class="form-label fw-bold small">Username</label>
                             <input type="text" class="form-control" id="username" name="username" placeholder="Enter a username" autocomplete="username" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="role" class="form-label fw-bold small">Business Role</label>
-                            <input type="text" class="form-control" id="role" name="role" placeholder="e.g. Admin, Staff" required>
+                            <label class="form-label fw-bold small" for="role">Business Role</label>
+                            <select class="form-select" id="role" name="role" required>
+                                <option value="staff">Staff</option>
+                                <option value="admin">Admin</option>
+                            </select>
                         </div>
 
                         <div class="mb-3">
@@ -56,7 +68,7 @@
                         <button type="submit" class="btn btn-primary w-100 py-2 fw-bold" id="signupbtn">Create Account</button>
                     </form>
 
-                    <a href="../../Admin/html/homepage.php" class="btn btn-outline-primary w-100 mt-3">Go to Admin Panel</a>
+                    <a href="login.php" class="btn btn-outline-primary w-100 mt-3">Back to Login</a>
                 </div>
 
             </div>

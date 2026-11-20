@@ -1,3 +1,14 @@
+<?php
+require_once '../../global/auth.php';
+if (!empty($_SESSION['username']) && strtolower((string) ($_SESSION['role'] ?? '')) === 'admin') {
+    header('Location: ../../Admin/html/homepage.php');
+    exit;
+}
+if (!empty($_SESSION['username']) && strtolower((string) ($_SESSION['role'] ?? '')) === 'staff') {
+    header('Location: ../../Staff/html/staff.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,6 +35,9 @@
                 </div>
 
                 <!-- Login Form -->
+                <?php if (isset($_GET['error']) && $_GET['error'] === 'invalid'): ?>
+                    <div class="alert alert-danger" role="alert">Invalid username or password. Please try again.</div>
+                <?php endif; ?>
                 <form method="POST" action="../auth.php" id="loginForm">
                     <div class="mb-3">
                         <label for="username" class="form-label fw-bold small">Username</label>

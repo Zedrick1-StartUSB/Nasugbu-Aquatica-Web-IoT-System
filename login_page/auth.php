@@ -1,11 +1,9 @@
 <?php
 require '../database_conn.php';
-
-session_start();
+require_once '../global/auth.php';
 $username = trim((string) ($_POST['username'] ?? ''));
 $password = (string) ($_POST['password'] ?? '');
-$role = trim((string) ($_POST['role'] ?? ''));
-$isSignup = $role !== '';
+$isSignup = isset($_POST['signup']);
 
 if ($username === '' || $password === '') {
     http_response_code(400);
@@ -13,6 +11,15 @@ if ($username === '' || $password === '') {
 }
 
 if ($isSignup) {
+    if (empty($_SESSION['username']) || strtolower((string) ($_SESSION['role'] ?? '')) !== 'admin') {
+        http_response_code(403);
+        exit('Only an administrator can create accounts.');
+    }
+    $role = strtolower(trim((string) ($_POST['role'] ?? '')));
+    if (!in_array($role, ['admin', 'staff'], true)) {
+        http_response_code(400);
+        exit('Select a valid account role.');
+    }
     $confirmPassword = (string) ($_POST['confirm-password'] ?? '');
     if ($confirmPassword !== $password) {
         http_response_code(400);
@@ -30,37 +37,52 @@ if ($isSignup) {
     exit;
 }
 
-$statement = $conn->prepare('SELECT username, password, role FROM users WHERE username = ? LIMIT 1');
+$statement = $conn->prepare('SELECT id, username, password, role FROM users WHERE username = ? ORDER BY id DESC');
 $statement->bind_param('s', $username);
 $statement->execute();
-$user = $statement->get_result()->fetch_assoc();
+$users = $statement->get_result()->fetch_all(MYSQLI_ASSOC);
+$user = null;
+$needsPasswordUpgrade = false;
+
+foreach ($users as $candidateUser) {
+    $storedPassword = (string) $candidateUser['password'];
+    if (password_verify($password, $storedPassword)) {
+        $user = $candidateUser;
+        break;
+    }
+    if (hash_equals($storedPassword, $password)) {
+        $user = $candidateUser;
+        $needsPasswordUpgrade = true;
+        break;
+    }
+}
 
 if (!$user) {
-    http_response_code(401);
-    exit('Invalid username or password.');
+    header('Location: html/login.php?error=invalid');
+    exit;
 }
 
 // Accept existing plaintext rows once, then upgrade them to password hashes.
-$storedPassword = (string) $user['password'];
-$passwordIsValid = password_verify($password, $storedPassword);
-if (!$passwordIsValid && hash_equals($storedPassword, $password)) {
-    $passwordIsValid = true;
+if ($needsPasswordUpgrade) {
     $newHash = password_hash($password, PASSWORD_DEFAULT);
-    $upgrade = $conn->prepare('UPDATE users SET password = ? WHERE username = ?');
-    $upgrade->bind_param('ss', $newHash, $username);
+    $upgrade = $conn->prepare('UPDATE users SET password = ? WHERE id = ?');
+    $upgrade->bind_param('si', $newHash, $user['id']);
     $upgrade->execute();
-}
-
-if (!$passwordIsValid) {
-    http_response_code(401);
-    exit('Invalid username or password.');
 }
 
 session_regenerate_id(true);
 $_SESSION['username'] = $user['username'];
-$_SESSION['role'] = $user['role'];
-$destination = strtolower((string) $user['role']) === 'staff'
-    ? '../Staff/html/staff.php'
-    : '../Admin/html/homepage.php';
-header('Location: ' . $destination);
-exit;
+$_SESSION['role'] = strtolower((string) $user['role']);
+if (!in_array($_SESSION['role'], ['admin', 'staff'], true)) {
+    $_SESSION = [];
+    http_response_code(403);
+    exit('This account has no supported role. Contact an administrator.');
+}
+if ($_SESSION['role'] === 'admin') {
+    header('Location: ../Admin/html/homepage.php');
+    exit;
+}
+if ($_SESSION['role'] === 'staff') {
+    header('Location: ../Staff/html/staff.php');
+    exit;
+}
